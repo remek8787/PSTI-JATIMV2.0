@@ -31,11 +31,24 @@ File static disediakan agar bisa langsung jalan di GitHub Pages:
 - `index.html`
 - `profil.html`
 - `berita.html`
+- `agenda.html`
+- `pengurus.html`
+- `atlit.html`
+- `pelatih.html`
+- `klub.html`
+- `kompetisi.html`
+- `klasemen.html`
+- `sponsor.html`
 - `galeri.html`
 - `kontak.html`
 - `admin.html`
 
+Data dan media sudah disinkronkan dari `PSTI-JATIMV1.0` ke:
+- `data/*.json`
+- `uploads/*`
+
 Aktifkan GitHub Pages dari branch `main` folder `/ (root)`.
+Workflow auto-deploy juga sudah disiapkan di `.github/workflows/deploy-pages.yml`.
 
 ## Catatan
 Template ini siap dikembangkan untuk produksi (auth admin, database, upload media, dsb).
