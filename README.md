@@ -18,13 +18,24 @@ Website profil organisasi PSTI Jawa Timur (responsive mobile/desktop) dengan sta
 - `api/contact.php` → endpoint simulasi kirim pesan
 - `data/berita.json` → sumber data berita sederhana
 
-## Menjalankan lokal
+## Menjalankan lokal (PHP)
 ```bash
 php -S localhost:8080 -t .
 ```
 Lalu buka:
 - http://localhost:8080/public/
 - http://localhost:8080/admin/
+
+## Mode GitHub Pages (Static)
+File static disediakan agar bisa langsung jalan di GitHub Pages:
+- `index.html`
+- `profil.html`
+- `berita.html`
+- `galeri.html`
+- `kontak.html`
+- `admin.html`
+
+Aktifkan GitHub Pages dari branch `main` folder `/ (root)`.
 
 ## Catatan
 Template ini siap dikembangkan untuk produksi (auth admin, database, upload media, dsb).
