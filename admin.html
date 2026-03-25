@@ -1,1 +1,127 @@
-<!doctype html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin Demo - PSTI Jatim</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"></head><body><div class="container py-5"><a href="index.html">← Kembali</a><h1 class="mt-3">Admin Dashboard (Static Demo)</h1><div class="row g-3 mt-2"><div class="col-md-4"><div class="card"><div class="card-body"><h5>Total Berita</h5><p class="display-6">24</p></div></div></div><div class="col-md-4"><div class="card"><div class="card-body"><h5>Agenda Bulan Ini</h5><p class="display-6">7</p></div></div></div><div class="col-md-4"><div class="card"><div class="card-body"><h5>Pesan Masuk</h5><p class="display-6">13</p></div></div></div></div></div></body></html>
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - PSTI Jatim</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container py-4">
+    <a href="index.html" class="text-decoration-none">← Kembali ke Beranda</a>
+    <h1 class="mt-2">Admin Dashboard Berita</h1>
+    <p class="text-muted">Tambah berita manual atau simpan link berita. Berita baru otomatis muncul di halaman pertama & halaman berita.</p>
+
+    <div class="row g-3 mt-1">
+      <div class="col-lg-7">
+        <div class="card">
+          <div class="card-body">
+            <h5>Tambah Berita</h5>
+            <form id="newsForm" class="row g-3 mt-1">
+              <div class="col-md-6">
+                <label class="form-label">Mode Input</label>
+                <select name="mode" class="form-select">
+                  <option value="manual">Tulis Manual</option>
+                  <option value="link">Ambil dari Link (simpan tautan)</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Tanggal</label>
+                <input type="datetime-local" name="date" class="form-control" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Judul</label>
+                <input class="form-control" name="title" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Ringkasan</label>
+                <textarea class="form-control" name="excerpt" rows="4" placeholder="Ringkasan berita..."></textarea>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Nama Sumber</label>
+                <input class="form-control" name="source_name" placeholder="PSTI Jatim / Media X">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Link Sumber</label>
+                <input class="form-control" name="source_url" type="url" placeholder="https://...">
+              </div>
+              <div class="col-12">
+                <label class="form-label">URL Gambar</label>
+                <input class="form-control" name="image" placeholder="https://.../gambar.jpg">
+              </div>
+              <div class="col-12 d-flex gap-2">
+                <button class="btn btn-primary" type="submit">Simpan Berita</button>
+                <a href="berita.html" class="btn btn-outline-secondary">Lihat Halaman Berita</a>
+              </div>
+              <div class="col-12"><small id="status" class="text-muted"></small></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="card">
+          <div class="card-body">
+            <h5>Berita Custom Tersimpan</h5>
+            <div id="customList" class="mt-3 small"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const KEY = 'psti_news_custom';
+    const getData = () => { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch { return []; } };
+    const setData = (arr) => localStorage.setItem(KEY, JSON.stringify(arr));
+
+    const customList = document.getElementById('customList');
+    const statusEl = document.getElementById('status');
+
+    function renderList(){
+      const rows = getData().sort((a,b)=>new Date(b.date)-new Date(a.date));
+      if (!rows.length) { customList.innerHTML = '<p class="text-muted">Belum ada berita custom.</p>'; return; }
+      customList.innerHTML = rows.map(x => `
+        <div class='border rounded p-2 mb-2'>
+          <b>${x.title}</b><br>
+          <span class='text-muted'>${x.date || ''}</span><br>
+          <button class='btn btn-sm btn-link text-danger p-0' data-id='${x.id}'>Hapus</button>
+        </div>`).join('');
+
+      customList.querySelectorAll('[data-id]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-id');
+          setData(getData().filter(x => x.id !== id));
+          renderList();
+          statusEl.textContent = 'Berita custom dihapus.';
+        });
+      });
+    }
+
+    document.getElementById('newsForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const f = new FormData(e.target);
+      const mode = f.get('mode');
+      const item = {
+        id: 'C' + Date.now(),
+        title: (f.get('title') || '').trim(),
+        date: (f.get('date') || '').replace('T', ' '),
+        excerpt: (f.get('excerpt') || '').trim(),
+        source_name: (f.get('source_name') || '').trim() || (mode === 'link' ? 'Sumber Link' : ''),
+        source_url: (f.get('source_url') || '').trim(),
+        image: (f.get('image') || '').trim() || 'https://picsum.photos/seed/customnews/800/500',
+        pinned: 0
+      };
+      if (!item.title || !item.date) { statusEl.textContent = 'Judul dan tanggal wajib diisi.'; return; }
+      if (mode === 'link' && !item.source_url) { statusEl.textContent = 'Mode link wajib isi URL sumber.'; return; }
+      const rows = getData();
+      rows.push(item);
+      setData(rows);
+      e.target.reset();
+      renderList();
+      statusEl.textContent = 'Berita berhasil disimpan. Cek halaman beranda/berita.';
+    });
+
+    renderList();
+  </script>
+</body>
+</html>

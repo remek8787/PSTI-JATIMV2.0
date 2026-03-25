@@ -74,6 +74,14 @@
     </div>
   </div>
 
+  <div class="mt-10 bg-white rounded-xl p-5 shadow-sm">
+    <div class="flex items-center justify-between gap-3">
+      <h3 class="font-bold text-pstiBlue">Berita Terbaru</h3>
+      <a href="berita.html" class="text-sm text-pstiBlue font-semibold">Lihat semua →</a>
+    </div>
+    <div id="homeNews" class="mt-4 grid md:grid-cols-3 gap-4"></div>
+  </div>
+
   <div class="mt-10 grid lg:grid-cols-2 gap-6">
     <section class="bg-white rounded-xl p-5 shadow-sm"><h3 class="font-bold text-pstiBlue">Agenda Terdekat</h3><div id="homeAgenda" class="mt-3 space-y-2 text-sm"></div></section>
     <section class="bg-white rounded-xl p-5 shadow-sm"><h3 class="font-bold text-pstiBlue">Kompetisi</h3><div id="homeKompetisi" class="mt-3 space-y-2 text-sm"></div></section>
@@ -90,12 +98,17 @@
 <script>
 async function loadJSON(path){ const r = await fetch(path); return r.json(); }
 function fill(el, html){ const n=document.getElementById(el); if(n) n.innerHTML=html; }
+function getCustomNews(){ try { return JSON.parse(localStorage.getItem('psti_news_custom') || '[]'); } catch { return []; } }
+function sortByDateDesc(arr){ return arr.sort((a,b)=> new Date(b.date||b.published_at||0) - new Date(a.date||a.published_at||0)); }
 (async () => {
   try {
-    const [agenda,pengurus,atlet,klub,pelatih,kompetisi,klasemen,sponsor] = await Promise.all([
+    const [agenda,pengurus,atlet,klub,pelatih,kompetisi,klasemen,sponsor,berita] = await Promise.all([
       loadJSON('data/agenda.json'), loadJSON('data/pengurus.json'), loadJSON('data/atlit.json'), loadJSON('data/klub.json'),
-      loadJSON('data/pelatih.json'), loadJSON('data/kompetisi.json'), loadJSON('data/klasemen.json'), loadJSON('data/sponsor.json')
+      loadJSON('data/pelatih.json'), loadJSON('data/kompetisi.json'), loadJSON('data/klasemen.json'), loadJSON('data/sponsor.json'),
+      loadJSON('data/berita.json')
     ]);
+    const mergedNews = sortByDateDesc([...(berita||[]), ...getCustomNews()]).slice(0,3);
+    fill('homeNews', mergedNews.map(n=>`<article class='bg-slate-50 rounded p-3'><p class='text-xs text-slate-500'>${n.date||n.published_at||''}</p><h4 class='font-bold mt-1'>${n.title||''}</h4><p class='text-sm text-slate-600 mt-1'>${(n.excerpt||'').slice(0,100)}...</p></article>`).join(''));
     fill('homeAgenda', agenda.slice(0,4).map(x=>`<div class='p-2 bg-slate-50 rounded'><b>${x.periode||''}</b><br>${x.kegiatan||''}</div>`).join(''));
     fill('homeKompetisi', kompetisi.slice(0,3).map(x=>`<div class='p-2 bg-slate-50 rounded'><b>${x.nama_kegiatan||x.kegiatan||''}</b><br>${x.lokasi||''} • ${x.periode||''}</div>`).join(''));
     fill('homePengurus', pengurus.slice(0,5).map(x=>`<div class='p-2 bg-slate-50 rounded'><b>${x.nama||''}</b><br>${x.jabatan||x.kategori||''}</div>`).join(''));
