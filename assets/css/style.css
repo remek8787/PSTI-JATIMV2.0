@@ -1,0 +1,20 @@
+.card-feature {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 14px;
+  padding: 18px;
+}
+.card-feature h3 { font-size: 1.8rem; font-weight: 800; color: #f2b705; }
+.card-feature p { margin: 0; color: #dbeafe; }
+
+.service-card {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, .06);
+}
+.service-card h3 { font-weight: 700; color: #0f3b82; margin-bottom: 8px; }
+
+@media (max-width: 640px) {
+  .card-feature h3 { font-size: 1.4rem; }
+}
