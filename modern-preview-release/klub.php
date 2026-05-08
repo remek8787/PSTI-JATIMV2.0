@@ -1,0 +1,3 @@
+<?php require_once __DIR__ . '/includes/layout.php'; $items = json_read('klub'); site_header('Klub', 'klub'); ?>
+<section class="page-hero"><div class="container"><h1>Klub & Daerah</h1><p>Daftar klub, komunitas, dan basis pembinaan sepak takraw di Jawa Timur.</p></div></section>
+<section class="section"><div class="container grid-3"><?php foreach($items as $it): ?><article class="data-card"><img src="<?= e(normalize_image($it['foto'] ?? '')) ?>" alt=""><div><h3><?= e((string)($it['nama'] ?? 'Klub')) ?></h3><p><?= e((string)($it['kabupaten'] ?? '')) ?><br><?= e((string)($it['alamat'] ?? '')) ?></p></div></article><?php endforeach; if(!$items): ?><div class="content">Data klub belum tersedia.</div><?php endif; ?></div></section><?php site_footer(); ?>

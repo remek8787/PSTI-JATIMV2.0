@@ -1,0 +1,8 @@
+[
+  {
+    "username": "admin",
+    "name": "Admin PSTI Jatim",
+    "password_hash": "$2y$10$REPLACE_WITH_SECURE_HASH",
+    "role": "admin"
+  }
+]

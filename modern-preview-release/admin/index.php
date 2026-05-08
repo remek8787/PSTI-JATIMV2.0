@@ -1,0 +1,5 @@
+<?php require_once __DIR__ . '/../includes/layout.php'; admin_header('Dashboard', 'dashboard');
+$news = json_read('berita'); $agenda = json_read('agenda'); $gallery = json_read('galeri'); $pengurus = json_read('pengurus'); ?>
+<div class="stats"><div class="stat"><b><?= count($news) ?></b><span>Berita</span></div><div class="stat"><b><?= count($agenda) ?></b><span>Agenda</span></div><div class="stat"><b><?= count($gallery) ?></b><span>Galeri</span></div><div class="stat"><b><?= count($pengurus) ?></b><span>Pengurus</span></div></div>
+<div class="panel"><h2>Content Center</h2><p class="muted">Admin baru ini menggantikan login lama yang masih hardcoded. Mulai dari sini konten berita, agenda, dan galeri dikelola lebih tertata.</p><div class="actions"><a class="btn" href="<?= e(base_url('admin/berita.php')) ?>">Kelola Berita</a><a class="btn secondary" href="<?= e(base_url('admin/agenda.php')) ?>">Kelola Agenda</a><a class="btn secondary" href="<?= e(base_url('admin/galeri.php')) ?>">Kelola Galeri</a></div></div>
+<?php admin_footer(); ?>

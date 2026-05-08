@@ -1,0 +1,16 @@
+# PSTI Jatim Modern Release Hardening
+Options -Indexes
+DirectoryIndex index.php index.html
+
+<FilesMatch "(?i)^(error_log|\.env|composer\.(json|lock)|package(-lock)?\.json|yarn\.lock|\.ftpquota)$">
+  Require all denied
+</FilesMatch>
+
+<FilesMatch "(?i)\.(zip|tar|tgz|gz|bz2|7z|rar|sql|sqlite|db|bak|old|backup|xlsx|xls|csv)$">
+  Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule (^|/)\.git(/|$) - [F,L]
+</IfModule>

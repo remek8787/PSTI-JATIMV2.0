@@ -1,0 +1,22 @@
+{
+  "name": "PSTI Jawa Timur",
+  "short_name": "PSTI Jatim",
+  "description": "Portal resmi PSTI Jawa Timur: blog, tracer atlet, tracer pelatih, anggota, kompetisi, agenda, dan galeri.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#06162f",
+  "theme_color": "#06162f",
+  "orientation": "portrait-primary",
+  "lang": "id-ID",
+  "categories": ["sports", "news", "education"],
+  "icons": [
+    {"src": "assets/logo.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "assets/logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ],
+  "shortcuts": [
+    {"name": "Blog", "short_name": "Blog", "url": "blog.php", "description": "Buka Blog PSTI Jatim"},
+    {"name": "Tracer Atlet", "short_name": "Atlet", "url": "tracer-atlet.php", "description": "Buka Tracer Atlet"},
+    {"name": "Kompetisi", "short_name": "Kompetisi", "url": "kompetisi.php", "description": "Buka Kompetisi"}
+  ]
+}

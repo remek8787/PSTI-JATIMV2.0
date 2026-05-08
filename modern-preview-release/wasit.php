@@ -1,0 +1,3 @@
+<?php require_once __DIR__ . '/includes/layout.php'; site_header('Wasit','anggota'); ?>
+<section class="module-hero"><div class="container"><span class="eyebrow">Anggota</span><h1>Data Wasit</h1><p>Modul data wasit untuk lisensi, status aktif, daerah asal, dan riwayat penugasan. Struktur halaman sudah siap, data dapat ditambahkan pada fase admin berikutnya.</p></div></section>
+<section class="section"><div class="container"><div class="content"><h2>Modul Wasit Siap Dikembangkan</h2><p>Field yang disarankan: nama, foto, nomor lisensi, level lisensi, asal kabupaten/kota, status aktif, kontak, dan riwayat pertandingan/kompetisi.</p></div></div></section><?php site_footer(); ?>
